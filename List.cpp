@@ -10,20 +10,24 @@ cList::cList() {
 string cList::getNode() {
 	string addData;
 	getline(cin, addData);
-	int i = addData.length() - 1;
+	int * i = new int;
+	*i = addData.length() - 1;
 /*  In this loop we are getting rid of unnecessary spaces 
 	if use have typed only spaces then we add a space to the list*/
-	while (addData[i] == ' ' && i != 0) {
-		addData.pop_back();
-		i--;
-		if (i == 0) {
-			addData = ' ';
-			return addData;
+	if (addData != "") {
+		while (addData[*i] == ' ' && *i != 0) {
+			addData.pop_back();
+			*i -= 1;
+			if (i == 0) {
+				addData = ' ';
+				return addData;
+			}
+		}
+		while (addData[0] == ' ') {
+			addData.erase(0, 1);
 		}
 	}
-	while (addData[0] == ' ') {
-		addData.erase(0, 1);
-	}
+	else addData = ' ';
 	return addData;
 }
 
@@ -108,14 +112,14 @@ void cList::AddNodeAfter(string afterData, string addData) {
 	}
 
 // Function that deletes the node from the list
-void cList::DeleteNode(string delData) {
+void cList::DeleteNodeByData(string delData) {
 	
 	nodePtr delPtr = NULL;					// Deletion pointer	
 	temp = head;							// Setting both pointers to point at the head of the list
 	curr = head;	
 
 /*  Searching through the list for the element that is going to be deleted
-	Step by step advancing "current" element and leaving "temporary" pointer
+	Step by step advancing "current" pointer and leaving "temporary" pointer
 	one node behind 
 	While we haven't reached the end of the list or found
 	the element we were searching for */
@@ -147,6 +151,62 @@ void cList::DeleteNode(string delData) {
 	}
 }
 
+// Function that deletes the node from the list by index
+void cList::DeleteNodeByIndex(int index) {
+	
+	int counter = 1;
+	nodePtr delPtr = NULL;					// Deletion pointer	
+	temp = head;							// Setting both pointers to point at the head of the list
+	curr = head;
+
+	while (curr != NULL && counter != index) {
+		temp = curr;
+		curr = curr->next;
+		counter += 1;
+	}
+
+	if (curr == NULL) {
+		cout << "\nElement with index: " << index << " wasn't found in the list\n";
+		delete delPtr;
+	}
+
+	else {
+		delPtr = curr;
+		curr = curr->next;
+		temp->next = curr;
+		/* Condition for the case in which the first element was choosen as an element to delete */
+		if (delPtr == head) {
+			head = head->next;
+			temp = NULL;
+		}
+		delete delPtr;
+		cout << "\nThe element with index: " << index << " was deleted\n";
+	}
+}
+
+// Function that deletes last node
+void cList::Pop() {
+
+	temp = head;							// Setting both pointers to point at the head of the list
+	curr = head;
+/*  Searching through the list for the element that is going to be deleted
+	Step by step advancing "current" pointer and leaving "temporary" pointer
+	one node behind 
+	While we haven't reached the end of the list */
+	while (curr->next != NULL) {
+		temp = curr;
+		curr = curr->next;
+	}
+/*  Deleting last node */
+	if (curr == head) {
+		temp = NULL;
+		head = NULL;
+	}
+	else {
+		temp->next = NULL;
+	}
+}
+
 // Function that deletes all the elements from the list
 void cList::Clear() {
 /*  Going through the list from the begining to the end deleting one by one each elemet */
@@ -171,19 +231,25 @@ void cList::Sort() {
 	delete temporary;
 }
 
-
 // Function that prints the list
-void cList::PrintList() {
+void cList::PrintList(string ind) {
+	int *i = new int;
+	*i = 1;
 	temp = head;
 	cout << endl;
 	cout << "List: \t";
 	cout << "[ ";
 /*  Going through the list printing each element */
-	while (temp != NULL) {
+	while (temp != NULL) { 
+		if (ind == "ind") {
+			cout << *i << '.';
+			*i = *i + 1;
+		}
 		cout << '\'' << temp->data << "' ";
 		temp = temp->next;
 	}
 	cout << "]\n\n";
+	delete i;
 }
 
 // Check if list is empty
@@ -199,7 +265,9 @@ void cList::Help() {
 	cout << "add           adds new element to the end of current list\n";
 	cout << "addafter      adds new element after any chosen one\n";
 	cout << "addfirst      adds new element to the begining of the list\n";
-	cout << "delete        deletes any chosen element\n";
+	cout << "delbydata     deletes any chosen element\n";
+	cout << "delbyind      deletes any element with chosen index\n";
+	cout << "pop           deletes the last element from the list\n";
 	cout << "sort          sorts your list in alphabetic order (yet only works with words)\n";
 	cout << "clear         deletes all the elements from the list\n";
 	cout << "quit          ends the program\n";

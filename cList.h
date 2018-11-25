@@ -32,14 +32,18 @@ public:
 	void AddNodeAsFirst(string addData);
 	// Function that adds a node after a desirable one
 	void AddNodeAfter(string after, string addData);
-	// Function that deletes the node from the list
-	void DeleteNode(string delData);
+	// Function that deletes the node from the list by name
+	void DeleteNodeByData(string delData);
+	// Function that deletes the node from the list by index
+	void DeleteNodeByIndex(int index);
+	// Function that deletes last node
+	void Pop();
 	// Function that deletes all the elements from the list
 	void Clear();
 	// Function to selection sort a linked list in alphabetical orded
 	void Sort();
 	// Function that prints the list
-	void PrintList();
+	void PrintList(string ind);
 	bool IsEmpty();
 	// Function that shows avalible commands
 	void Help();

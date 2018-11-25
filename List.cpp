@@ -11,10 +11,15 @@ string cList::getNode() {
 	string addData;
 	getline(cin, addData);
 	int i = addData.length() - 1;
-/*  In this loop we are getting rid of unnecessary spaces*/
-	while (addData[i] == ' ') {
+/*  In this loop we are getting rid of unnecessary spaces 
+	if use have typed only spaces then we add a space to the list*/
+	while (addData[i] == ' ' && i != 0) {
 		addData.pop_back();
 		i--;
+		if (i == 0) {
+			addData = ' ';
+			return addData;
+		}
 	}
 	while (addData[0] == ' ') {
 		addData.erase(0, 1);
@@ -150,7 +155,6 @@ void cList::Clear() {
 		head = head->next;
 		delete curr;
 	}
-	cout << "\nThe list was completely cleared\n";
 }
 
 // Function to selection sort a linked list
@@ -182,7 +186,7 @@ void cList::PrintList() {
 	cout << "]\n\n";
 }
 
-
+// Check if list is empty
 bool cList::IsEmpty() {
 	return (head == NULL) ? 1 : 0;
 }

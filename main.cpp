@@ -4,9 +4,9 @@ void except();
 
 int main() {
 	
-	system("color f0");
 	cList list;
 	string command;
+	cout << "\n\nLinkedList application welcomes you\n";
 	cout << "Type help to see available commands\n";
 	while (1) {
 		cout << "> "; getline(cin, command);
@@ -15,7 +15,7 @@ int main() {
 			list.PrintList();
 		}
 		else if (command == "add") {
-			cout << "\nWhich element would you like to add?\n\n";
+			cout << "\nType new element you'd like to add\n\n";
 			cout << "> "; list.AddNode(list.getNode());
 			list.PrintList();
 		}
@@ -26,13 +26,13 @@ int main() {
 			else {
 				cout << "\nAfter which element would you like to add yours?\n\n";
 				cout << "> "; getline(cin, command);
-				cout << "\nWhat would you like to add?\n\n";
+				cout << "\nType new element you'd like to add\n\n";
 				cout << "> "; list.AddNodeAfter(command, list.getNode());
 			}
 			list.PrintList();
 		}
 		else if (command == "addfirst") {
-			cout << "\nWhich element would you like to add?\n\n";
+			cout << "\nType new element you'd like to add\n\n";
 			cout << "> "; list.AddNodeAsFirst(list.getNode());
 			list.PrintList();
 		}
@@ -52,6 +52,7 @@ int main() {
 			}
 			else {
 				list.Sort();
+				cout << "\nThe list has been sorted\n\n";
 			}
 			list.PrintList();
 		}
@@ -61,10 +62,12 @@ int main() {
 			}
 			else {
 			list.Clear();
+			cout << "\nThe list was completely cleared\n\n";
 			}
 			list.PrintList();
 		}
 		else if (command == "quit") {
+			system("color 08");
 			return 0;
 		}
 		else cout << "\nThere is no such command. Try again or use help to see available commands\n\n";
@@ -72,5 +75,5 @@ int main() {
 }
 
 void except() {
-	cout << "\nThere are no elements yet. At first add something\n";
+	cout << "\nThere are no elements yet in the List. At first add something\n";
 }
